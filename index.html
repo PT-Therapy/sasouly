@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="ar" dir="ltr">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy New Year Sally</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+    }
+
+    html, body, .app-wrapper {
+      height: 100%;
+      width: 100%;
+    }
+
+    .app-wrapper {
+      background: linear-gradient(135deg, #ff6b9d 0%, #ffc3d8 50%, #ff85b3 100%);
+      overflow-auto;
+      position: relative;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      animation: sparkle-float 3s infinite;
+    }
+
+    @keyframes sparkle-float {
+      0% {
+        transform: translateY(100%) scale(0);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100%) scale(1);
+        opacity: 0;
+      }
+    }
+
+    .firework {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      animation: explode 1.5s ease-out infinite;
+    }
+
+    @keyframes explode {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+      }
+    }
+
+    .main-container {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .content-card {
+      background: rgba(255, 224, 236, 0.95);
+      border-radius: 30px;
+      padding: 50px 40px;
+      max-width: 700px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(255, 107, 157, 0.3);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 192, 216, 0.3) 0%, transparent 70%);
+      animation: rotate-gradient 10s linear infinite;
+    }
+
+    @keyframes rotate-gradient {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .year-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff6b9d, #ff85b3);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+    }
+
+    .main-title {
+      font-size: 3.5rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #ff6b9d, #c44569);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+
+    .photo-container {
+      width: 200px;
+      height: 200px;
+      margin: 30px auto;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 6px solid #ff6b9d;
+      box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+      position: relative;
+    }
+
+    .photo-container::after {
+      content: '✨';
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      font-size: 2rem;
+      animation: bounce 1s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .photo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .name-section {
+      margin: 25px 0;
+    }
+
+    .nickname {
+      font-size: 2.5rem;
+      color: #ff6b9d;
+      font-weight: bold;
+      margin-bottom: 8px;
+      text-shadow: 2px 2px 4px rgba(255, 107, 157, 0.2);
+    }
+
+    .full-name {
+      font-size: 1.3rem;
+      color: #d8577a;
+      font-style: italic;
+    }
+
+    .message-box {
+      background: linear-gradient(135deg, rgba(255, 195, 216, 0.3), rgba(255, 133, 179, 0.2));
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+      border: 2px solid rgba(255, 107, 157, 0.3);
+    }
+
+    .greeting {
+      font-size: 1.3rem;
+      color: #c44569;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .personal-note {
+      font-size: 1.1rem;
+      color: #d8577a;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .closing {
+      font-size: 1.2rem;
+      color: #ff6b9d;
+      font-weight: 600;
+      margin-top: 25px;
+    }
+
+    .emoji-decoration {
+      font-size: 2rem;
+      margin: 20px 0;
+    }
+
+    .heart-float {
+      position: absolute;
+      font-size: 1.5rem;
+      opacity: 0;
+      animation: float-heart 4s infinite;
+    }
+
+    @keyframes float-heart {
+      0% {
+        transform: translateY(100%) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-100%) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-title {
+        font-size: 2.5rem;
+      }
+
+      .nickname {
+        font-size: 2rem;
+      }
+
+      .content-card {
+        padding: 40px 25px;
+      }
+
+      .photo-container {
+        width: 160px;
+        height: 160px;
+      }
+
+      .greeting {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-wrapper" id="appWrapper">
+   <div class="main-container">
+    <div class="content-card">
+     <div class="card-content">
+      <div class="year-badge" id="yearBadge">
+       Happy New Year 2025
+      </div>
+      <h1 class="main-title" id="mainTitle">🎉 Happy New Year 🎉</h1>
+      <div class="photo-container"><img src="https://i.postimg.cc/nzSC69GD/at.jpg" alt="Sally" onerror="this.src=''; this.alt='Photo'; this.style.display='none';">
+      </div>
+      <div class="name-section">
+       <div class="nickname" id="nickname">
+        Salsouly 💖
+       </div>
+       <div class="full-name" id="fullName">
+        Sally
+       </div>
+      </div>
+      <div class="emoji-decoration">
+       🎊 ✨ 🎆 ✨ 🎊
+      </div>
+      <div class="message-box">
+       <p class="greeting" id="greeting">May this new year bring you endless joy, beautiful moments, and all the happiness your heart can hold!</p>
+       <p class="personal-note" id="personalMessage">Wishing you a year filled with love, laughter, success, and wonderful adventures. You deserve all the best things life has to offer! 🌟</p>
+       <div class="emoji-decoration">
+        💕 🎈 🌸 🎈 💕
+       </div>
+       <p class="closing" id="closingText">With love and best wishes for 2025! 🎉</p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      background_color: '#ff6b9d',
+      surface_color: '#ffe0ec',
+      text_color: '#c44569',
+      accent_color: '#ff85b3',
+      font_family: 'Segoe UI',
+      font_size: 16,
+      main_title: 'Happy New Year 2026',
+      nickname: 'Salsouly',
+      full_name: 'Sally',
+      greeting_message: 'May this new year bring you endless joy, beautiful moments, and all the happiness your heart can hold!',
+      personal_message: 'Wishing you a year filled with love, laughter, success, and wonderful adventures. You deserve all the best things life has to offer! 🌟',
+      closing_text: 'With love and best wishes for 2026! 🎉'
+    };
+
+    async function onConfigChange(config) {
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = 'Tahoma, Geneva, Verdana, sans-serif';
+      const baseSize = config.font_size || defaultConfig.font_size;
+      
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      
+      document.getElementById('appWrapper').style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${surfaceColor} 50%, ${accentColor} 100%)`;
+      document.querySelector('.content-card').style.background = `rgba(255, 224, 236, 0.95)`;
+      
+      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('mainTitle').style.fontSize = `${baseSize * 2.2}px`;
+      document.getElementById('nickname').style.fontSize = `${baseSize * 1.56}px`;
+      document.getElementById('fullName').style.fontSize = `${baseSize * 0.81}px`;
+      document.getElementById('greeting').style.fontSize = `${baseSize * 0.81}px`;
+      document.getElementById('personalMessage').style.fontSize = `${baseSize * 0.69}px`;
+      document.getElementById('closingText').style.fontSize = `${baseSize * 0.75}px`;
+      document.getElementById('yearBadge').style.fontSize = `${baseSize * 0.75}px`;
+      
+      document.getElementById('nickname').style.color = accentColor;
+      document.getElementById('fullName').style.color = textColor;
+      document.getElementById('greeting').style.color = textColor;
+      document.getElementById('personalMessage').style.color = textColor;
+      document.getElementById('closingText').style.color = accentColor;
+      
+      document.getElementById('yearBadge').textContent = config.main_title || defaultConfig.main_title;
+      document.getElementById('nickname').textContent = `${config.nickname || defaultConfig.nickname} 💖`;
+      document.getElementById('fullName').textContent = config.full_name || defaultConfig.full_name;
+      document.getElementById('greeting').textContent = config.greeting_message || defaultConfig.greeting_message;
+      document.getElementById('personalMessage').textContent = config.personal_message || defaultConfig.personal_message;
+      document.getElementById('closingText').textContent = config.closing_text || defaultConfig.closing_text;
+    }
+
+    function createSparkles() {
+      const wrapper = document.getElementById('appWrapper');
+      setInterval(() => {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.left = Math.random() * 100 + '%';
+        sparkle.style.animationDelay = Math.random() * 2 + 's';
+        wrapper.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 3000);
+      }, 300);
+    }
+
+    function createFireworks() {
+      const wrapper = document.getElementById('appWrapper');
+      setInterval(() => {
+        const colors = ['#ff6b9d', '#ffc3d8', '#ff85b3', '#ffffff', '#ffb3d9'];
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * (window.innerHeight * 0.6);
+        
+        for (let i = 0; i < 12; i++) {
+          const firework = document.createElement('div');
+          firework.className = 'firework';
+          firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+          firework.style.left = x + 'px';
+          firework.style.top = y + 'px';
+          
+          const angle = (Math.PI * 2 * i) / 12;
+          const distance = 50 + Math.random() * 50;
+          firework.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
+          firework.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
+          
+          wrapper.appendChild(firework);
+          setTimeout(() => firework.remove(), 1500);
+        }
+      }, 2000);
+    }
+
+    function createFloatingHearts() {
+      const wrapper = document.getElementById('appWrapper');
+      const hearts = ['💖', '💕', '💗', '💝'];
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'heart-float';
+        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.animationDelay = Math.random() * 2 + 's';
+        wrapper.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+      }, 1500);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.surface_color || defaultConfig.surface_color,
+              set: (value) => {
+                config.surface_color = value;
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['main_title', config.main_title || defaultConfig.main_title],
+          ['nickname', config.nickname || defaultConfig.nickname],
+          ['full_name', config.full_name || defaultConfig.full_name],
+          ['greeting_message', config.greeting_message || defaultConfig.greeting_message],
+          ['personal_message', config.personal_message || defaultConfig.personal_message],
+          ['closing_text', config.closing_text || defaultConfig.closing_text]
+        ])
+      });
+    }
+
+    createSparkles();
+    createFireworks();
+    createFloatingHearts();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b6ca09466dae210',t:'MTc2NzIxMzk5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
